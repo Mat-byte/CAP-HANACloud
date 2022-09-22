@@ -6,15 +6,20 @@
   "license": "UNLICENSED",
   "private": true,
   "dependencies": {
+    "@sap/audit-logging": "^5.5.5",
     "@sap/cds": "^6",
+    "@sap/xsenv": "^3.3.2",
+    "@sap/xssec": "^3.2.13",
     "express": "^4",
-    "hdb": "^0.19.0"
+    "hdb": "^0.19.0",
+    "passport": "^0.6.0"
   },
   "devDependencies": {
+    "@sap/ux-specification": "^1.102.6",
     "sqlite3": "^5.0.4"
   },
   "scripts": {
-    "start": "cds run"
+    "start": "NODE_ENV=production cds run"
   },
   "engines": {
     "node": "^16.15"
@@ -46,20 +51,29 @@
   },
   "cds": {
     "build": {
-        "tasks": [
-            {
-                "for": "hana",
-                "dest": "../db"
-            },
-            {
-                "for": "node-cf"
-            }
-        ]
+      "tasks": [
+        {
+          "for": "hana",
+          "dest": "../db"
+        },
+        {
+          "for": "node-cf"
+        }
+      ]
     },
     "requires": {
-        "db": {
-            "kind": "hana-cloud"
-        }
+      "db": {
+        "kind": "hana-cloud"
+      },
+      "auth": {
+        "kind": "xsuaa"
+      },
+      "approuter": {
+        "kind": "cloudfoundry"
+      }
     }
-}
+  },
+  "sapux": [
+    "app/interaction_items"
+  ]
 }
